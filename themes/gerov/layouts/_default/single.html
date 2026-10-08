@@ -1,0 +1,22 @@
+{{ define "title" }}{{ .Title }} — {{ .Site.Title }}{{ end }}
+{{ define "description" }}{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}{{ end }}
+
+{{ define "main" }}
+<article class="prose-page">
+  <header class="prose-header">
+    {{ if eq .Section "posts" }}<a href="{{ "/posts/" | relURL }}" class="back-link">← cd ../posts</a>{{ end }}
+    <p class="section-heading">{{ .Section | default "page" }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Date }}<p class="prose-date">{{ .Format "January 2, 2006" }}</p>{{ end }}
+  </header>
+  <div class="prose-body">
+    {{ .Content }}
+  </div>
+  {{ if or .PrevInSection .NextInSection }}
+  <nav class="post-nav">
+    {{ with .PrevInSection }}<a href="{{ .RelPermalink }}" class="post-nav-prev">← {{ .Title }}</a>{{ end }}
+    {{ with .NextInSection }}<a href="{{ .RelPermalink }}" class="post-nav-next">{{ .Title }} →</a>{{ end }}
+  </nav>
+  {{ end }}
+</article>
+{{ end }}

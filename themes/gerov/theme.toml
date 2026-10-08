@@ -1,0 +1,9 @@
+name = "gerov"
+license = "MIT"
+description = "Personal portfolio theme — dark terminal aesthetic"
+homepage = "https://gerov.eu"
+min_version = "0.120.0"
+
+[author]
+  name = "Tsvetan Gerov"
+  email = "tsvetan@gerov.eu"

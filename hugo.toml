@@ -1,0 +1,12 @@
+baseURL = 'https://gerov.eu/'
+locale = 'en-us'
+title = 'Tsvetan Gerov'
+theme = 'gerov'
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[params]
+  email    = "tsvetan@gerov.eu"
+  github   = "https://git.unixworld.org/tsvetan/"
+  linkedin = "https://linkedin.com/in/tsvetan-gerov-21967a86/"

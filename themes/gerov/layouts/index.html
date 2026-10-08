@@ -1,0 +1,204 @@
+{{ define "title" }}{{ .Params.name }} — {{ .Params.tagline }}{{ end }}
+{{ define "description" }}{{ .Params.about }}{{ end }}
+
+{{ define "main" }}
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-photo">
+      <img src="/me.jpg" alt="{{ .Params.name }}" />
+    </div>
+    <div class="hero-text">
+      <p class="hero-tagline">{{ .Params.tagline }}</p>
+
+      <h1><span class="hero-cursor">{{ .Params.name }}</span></h1>
+
+      <div class="hero-terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-title">tsvetan@gerov.eu</span>
+        </div>
+        <div class="terminal-body">
+<span class="t-prompt">❯</span> <span class="t-cmd">whois {{ .Params.name | lower | replaceRE `\s+` "." }}</span>
+<br>
+<span class="t-key">name</span>      <span class="t-val">{{ .Params.name }}</span>
+<br>
+<span class="t-key">role</span>      <span class="t-val">{{ .Params.tagline }}</span>
+<br>
+<span class="t-key">location</span>  <span class="t-val">{{ .Params.location }}</span>
+<br>
+<span class="t-key">company</span>   <span class="t-val">{{ .Params.company }}</span>
+        </div>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">view projects</a>
+        <a href="#contact" class="btn btn-outline">get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About + Skills -->
+<section id="about">
+  <p class="section-heading">about</p>
+  <p class="about-bio">{{ .Params.about }}</p>
+
+  {{ with .Params.origin }}
+  <div class="origin-block">
+    <div class="origin-bar">
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+      <span class="terminal-dot"></span>
+      <span class="origin-filename">cat ~/origin.txt</span>
+    </div>
+    <p class="origin-text">{{ . }}</p>
+  </div>
+  {{ end }}
+
+  {{ with .Params.skill_groups }}
+  <p class="section-heading" id="stack">stack</p>
+  <div class="bento-grid">
+    {{ range . }}
+    <div class="bento-card" style="--accent:{{ .accent }}; --span:{{ .span }}">
+      <div class="bento-top-bar"></div>
+      <p class="bento-category">{{ .category }}</p>
+      <div class="bento-chips">
+        {{ range .items }}
+        <span class="bento-chip">
+          {{ if .icon }}
+          <i class="{{ .icon }} bento-icon" style="color:{{ .color }}"></i>
+          {{ else }}
+          <span class="skill-dot" style="background:{{ .color }}"></span>
+          {{ end }}
+          {{ .name }}
+        </span>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+</section>
+
+<!-- Certificates -->
+{{ with .Params.certificates }}
+<section id="certificates">
+  <p class="section-heading">certificates</p>
+  <div class="cert-list">
+    {{ range . }}
+    <div class="cert-card">
+      <span class="cert-abbr">{{ .abbr }}</span>
+      <div class="cert-info">
+        <p class="cert-name">{{ .name }}</p>
+        <p class="cert-issuer">{{ .issuer }}</p>
+        <p class="cert-meta">
+          Issued {{ .issued }}{{ with .expires }} · Expires {{ . }}{{ end }}
+          {{ with .credential_id }}<span class="cert-id">· ID: {{ . }}</span>{{ end }}
+        </p>
+      </div>
+      {{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="cert-link">verify ↗</a>{{ end }}
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- Experience -->
+{{ with .Params.experience }}
+<section id="experience">
+  <p class="section-heading">experience</p>
+  <div class="exp-list">
+    {{ range . }}
+    <div class="exp-company">
+      <div class="exp-company-header">
+        <span class="exp-company-name">{{ .company }}</span>
+        <span class="exp-tenure">{{ .tenure }}</span>
+      </div>
+      <div class="exp-roles">
+        {{ range .roles }}
+        <div class="exp-role">
+          <div class="exp-role-meta">
+            <span class="exp-role-period">{{ .period }}</span>
+          </div>
+          <div class="exp-role-body">
+            <h3>{{ .title }}</h3>
+            {{ with .description }}<p>{{ . }}</p>{{ end }}
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- Projects -->
+{{ with .Params.projects }}
+<section id="projects">
+  <p class="section-heading">projects</p>
+  {{ with $.Params.projects_note }}<p class="projects-note">{{ . }}</p>{{ end }}
+  <div class="projects-grid">
+    {{ range . }}
+    {{ if .private }}
+    <div class="project-card project-card--private">
+      <h3>{{ .name }} <span class="private-badge">private</span></h3>
+      <p>{{ .description }}</p>
+      <div class="tags">
+        {{ range .tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+    </div>
+    {{ else }}
+    <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="project-card">
+      <h3>{{ .name }}</h3>
+      <p>{{ .description }}</p>
+      <div class="tags">
+        {{ range .tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+    </a>
+    {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- Contact -->
+<section id="contact">
+  <p class="section-heading">contact</p>
+  <p class="contact-intro">
+    {{ .Params.contact_intro | default "Have a project in mind, want to collaborate, or just want to say hi? I'm always happy to chat." }}
+  </p>
+  <div class="contact-links">
+    {{ with .Site.Params.email }}
+    <a href="mailto:{{ . }}" class="contact-link">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+      </svg>
+      {{ . }}
+    </a>
+    {{ end }}
+    {{ with .Site.Params.github }}
+    <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="contact-link">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M23.546 10.93 13.067.452a1.55 1.55 0 0 0-2.188 0L8.708 2.627l2.76 2.76a1.838 1.838 0 0 1 2.327 2.341l2.658 2.658a1.838 1.838 0 1 1-1.1 1.14l-2.479-2.479v6.522a1.838 1.838 0 1 1-1.513-.043V8.844a1.838 1.838 0 0 1-.998-2.413L7.593 3.664.452 10.804a1.55 1.55 0 0 0 0 2.188l10.478 10.478a1.55 1.55 0 0 0 2.188 0l10.428-10.428a1.55 1.55 0 0 0 0-2.188"/>
+      </svg>
+      Git
+    </a>
+    {{ end }}
+    {{ with .Site.Params.linkedin }}
+    <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="contact-link">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+      LinkedIn
+    </a>
+    {{ end }}
+  </div>
+</section>
+
+{{ end }}
