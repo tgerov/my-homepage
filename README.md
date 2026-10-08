@@ -27,12 +27,3 @@ hugo
 
 Theme files are overridden by placing equivalents under `layouts/` or `static/`. Do not edit `themes/` directly.
 
-## CI/CD
-
-On every push to `main`, Forgejo Actions:
-
-1. Builds the Hugo site
-2. Packages it into a UBI 10 + Nginx container image
-3. Pushes the image to `git.unixworld.org/tsvetan/gerov.eu` (tagged `:latest` and by commit SHA)
-
-Required repository secrets: `REGISTRY_USER`, `REGISTRY_PASSWORD`.
